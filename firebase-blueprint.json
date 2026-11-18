@@ -1,0 +1,130 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and tracking metadata",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "admin"] },
+        "status": { "type": "string", "enum": ["approved", "pending", "rejected"] },
+        "approvedAt": { "type": "string" },
+        "approvedBy": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "lastActiveAt": { "type": "string" }
+      },
+      "required": ["userId", "email", "role"]
+    },
+    "PreApprovedUser": {
+      "title": "PreApprovedUser",
+      "description": "Pre-authorized email for automatic approval",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "admin"] },
+        "addedBy": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "email", "addedBy", "createdAt"]
+    },
+    "Admin": {
+      "title": "Admin",
+      "description": "Admin privilege marker document",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "email": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["userId", "email"]
+    },
+    "Habit": {
+      "title": "Habit",
+      "description": "A habit item being tracked",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "question": { "type": "string" },
+        "type": { "type": "string", "enum": ["boolean", "numerical"] },
+        "frequency": { "type": "string", "enum": ["daily", "weekly", "monthly"] },
+        "weeklySchedule": { "type": "string", "enum": ["all", "workdays", "custom"] },
+        "monthlyTargetCount": { "type": "number" },
+        "targetValue": { "type": "number" },
+        "unit": { "type": "string" },
+        "color": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "archived": { "type": "boolean" },
+        "order": { "type": "number" }
+      },
+      "required": ["id", "userId", "name", "type", "color"]
+    },
+    "HabitLog": {
+      "title": "HabitLog",
+      "description": "Daily completion log for a specific habit",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "habitId": { "type": "string" },
+        "userId": { "type": "string" },
+        "date": { "type": "string" },
+        "completed": { "type": "boolean" },
+        "value": { "type": "number" },
+        "note": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "habitId", "userId", "date", "completed"]
+    },
+    "Activity": {
+      "title": "Activity",
+      "description": "Activity stream log entry for user habit completions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "action": { "type": "string" },
+        "habitName": { "type": "string" },
+        "details": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["id", "userId", "action", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/preApprovedUsers/{id}": {
+      "schema": "PreApprovedUser",
+      "description": "Pre-approved user invitations"
+    },
+    "/admins/{userId}": {
+      "schema": "Admin",
+      "description": "Designated administrators"
+    },
+    "/habits/{habitId}": {
+      "schema": "Habit",
+      "description": "User habits"
+    },
+    "/habitLogs/{logId}": {
+      "schema": "HabitLog",
+      "description": "Habit checkmarks and daily numerical logs"
+    },
+    "/activities/{activityId}": {
+      "schema": "Activity",
+      "description": "Activity audit feed for admin monitoring"
+    }
+  }
+}

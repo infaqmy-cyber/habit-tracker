@@ -1,0 +1,6 @@
+{
+  "name": "HABIT TRACKER by INFAQ Consultancy",
+  "description": "Aplikasi pengesanan habit berprestasi tinggi & pemantauan konsistensi pasukan INFAQ Consultancy dengan statistik visual, kalendar heatmap dan kelulusan pengguna.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
